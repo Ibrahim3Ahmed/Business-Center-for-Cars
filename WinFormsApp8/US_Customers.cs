@@ -13,7 +13,7 @@ namespace WinFormsApp8
 {
     public partial class US_Customers : UserControl
     {
-        string connectionString = "Data Source=DESKTOP-RHRQ9VP\\SQLEXPRESS;Initial Catalog=Toyota system;Integrated Security=True";
+        string connectionString = "Data Source=DESKTOP-LULQNSK\\SQLEXPRESS;Initial Catalog=Toyota system;Integrated Security=True";
         public US_Customers()
         {
             InitializeComponent();
@@ -21,6 +21,7 @@ namespace WinFormsApp8
         }
         void LoadAllcustomers()
         {
+            string connectionString = "Data Source=DESKTOP-LULQNSK\\SQLEXPRESS;Initial Catalog=Toyota system;Integrated Security=True";
             using (SqlConnection con = new SqlConnection(connectionString))
             {
                 string query = "SELECT customerid AS ID, Username AS Name, phone AS Phone,address AS Address,Service AS Sercive ,price AS Price FROM Customers";
@@ -42,6 +43,7 @@ namespace WinFormsApp8
         }
         void Searchcustomers(string keyword)
         {
+            string connectionString = "Data Source=DESKTOP-LULQNSK\\SQLEXPRESS;Initial Catalog=Toyota system;Integrated Security=True";
             using (SqlConnection con = new SqlConnection(connectionString))
             {
                 string query = @"SELECT customerid AS ID, Username AS Name, phone AS Phone,address AS Address,Service AS Sercive ,price AS Price
@@ -66,7 +68,7 @@ namespace WinFormsApp8
         }
         void Loadcustomers()
         {
-            string connectionString = "Data Source=DESKTOP-RHRQ9VP\\SQLEXPRESS;Initial Catalog=Toyota system;Integrated Security=True";
+            string connectionString = "Data Source=DESKTOP-LULQNSK\\SQLEXPRESS;Initial Catalog=Toyota system;Integrated Security=True";
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 SqlDataAdapter da = new SqlDataAdapter("SELECT customerid , Username, phone ,address,Service,price FROM Customers", conn);
@@ -78,7 +80,7 @@ namespace WinFormsApp8
 
         private void Add_Click(object sender, EventArgs e)
         {
-            string connectionString = "Data Source=DESKTOP-RHRQ9VP\\SQLEXPRESS;Initial Catalog=Toyota system;Integrated Security=True";
+            string connectionString = "Data Source=DESKTOP-LULQNSK\\SQLEXPRESS;Initial Catalog=Toyota system;Integrated Security=True";
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 string query = "INSERT INTO Customers (customerid, Username, phone,address,Service,price) VALUES (@id, @name, @phone,@address,@Service, @price)";
@@ -128,6 +130,7 @@ namespace WinFormsApp8
 
         private void Update_Click(object sender, EventArgs e)
         {
+            string connectionString = "Data Source=DESKTOP-LULQNSK\\SQLEXPRESS;Initial Catalog=Toyota system;Integrated Security=True";
             using (SqlConnection con = new SqlConnection(connectionString))
             {
                 string query = "UPDATE Customers SET Address=@Address,Username=@name, phone=@phone, Service=@Service, price=@price WHERE customerid=@id";
@@ -153,8 +156,19 @@ namespace WinFormsApp8
 
         private void DeleteRow_Click(object sender, EventArgs e)
         {
+            
+        }
+
+        private void US_Customers_Load_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void DeleteRow_Click_1(object sender, EventArgs e)
+        {
             if (!string.IsNullOrWhiteSpace(txtid.Text))
             {
+                string connectionString = "Data Source=DESKTOP-LULQNSK\\SQLEXPRESS;Initial Catalog=Toyota system;Integrated Security=True";
                 using (SqlConnection con = new SqlConnection(connectionString))
                 {
                     string query = "DELETE FROM Customers WHERE customerid = @id";

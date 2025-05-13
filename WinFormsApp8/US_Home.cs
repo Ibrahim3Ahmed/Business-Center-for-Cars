@@ -1,60 +1,38 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
+﻿
+using System;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using System.Data.SqlClient;
+using System.Windows.Forms;
 
 namespace WinFormsApp8
 {
-    public partial class US_Home : UserControl
+    public partial class Home : UserControl
     {
-        private void LoadTotalCars()
-        {
-            string connectionString = "Data Source=DESKTOP-RHRQ9VP\\SQLEXPRESS;Initial Catalog=\"Toyota system\";Integrated Security=True";
+        // تعريف الاتصال مرة واحدة فقط
+        private readonly string connectionString = @"Data Source=DESKTOP-LULQNSK\SQLEXPRESS;Initial Catalog=Toyota system;Integrated Security=True";
 
-            using (SqlConnection conn = new SqlConnection(connectionString))
-            {
-                conn.Open();
-                SqlCommand cmd = new SqlCommand("SELECT COUNT(*) FROM Cars", conn);
-                int total = (int)cmd.ExecuteScalar();
-                label3.Text = total.ToString(); // دي اللي بتعرض عدد العربيات
-                conn.Close();
-            }
-        }
-        private void LoadTotalCustomers()
-        {
-            string connStr = @"Data Source=DESKTOP-RHRQ9VP\SQLEXPRESS;Initial Catalog=Toyota system;Integrated Security=True"; // أو استخدم نفس سترنج الاتصال اللي بتستخدمه
-            using (SqlConnection conn = new SqlConnection(connStr))
-            {
-                conn.Open();
-                string query = "SELECT COUNT(*) FROM Customers";
-                SqlCommand cmd = new SqlCommand(query, conn);
-                int count = (int)cmd.ExecuteScalar();
-                label4.Text = count.ToString(); // غيّر الاسم ده لو اسم الـLabel مختلف
-            }
-        }
-        public US_Home()
+        public Home()
         {
             InitializeComponent();
 
-            // شغّل التايمر فوراً
+            // تشغيل التايمر لتحديث الوقت
             timer1.Interval = 1000;
             timer1.Start();
 
-            // حدّث التاريخ والوقت عند الإنشاء
+            // تحديث التاريخ والوقت عند الإنشاء
             UpdateDateTime();
+        }
+
+        private void US_Home_Load(object sender, EventArgs e)
+        {
             LoadTotalCars();
             LoadTotalCustomers();
+            LoadTotalMaintenance();
+            LoadTotalParts();
         }
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            // كل ثانية حدّث التاريخ والوقت
             UpdateDateTime();
         }
 
@@ -64,24 +42,82 @@ namespace WinFormsApp8
             lblDate.Text = DateTime.Now.ToString("dddd, dd MMMM yyyy");
         }
 
-        private void label10_Click(object sender, EventArgs e)
+        private void LoadTotalCars()
         {
-
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+                    SqlCommand cmd = new SqlCommand("SELECT COUNT(*) FROM Cars", conn);
+                    int total = (int)cmd.ExecuteScalar();
+                    label3.Text = total.ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error loading cars: " + ex.Message);
+            }
         }
 
-        private void label4_Click(object sender, EventArgs e)
+        private void LoadTotalMaintenance()
         {
-
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+                    SqlCommand cmd = new SqlCommand("SELECT COUNT(*) FROM [Maintenance Services]", conn);
+                    int total = (int)cmd.ExecuteScalar();
+                    label8.Text = total.ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error loading maintenance services: " + ex.Message);
+            }
         }
 
-        private void label3_Click(object sender, EventArgs e)
+        private void LoadTotalCustomers()
         {
-
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+                    SqlCommand cmd = new SqlCommand("SELECT COUNT(*) FROM Customers", conn);
+                    int total = (int)cmd.ExecuteScalar();
+                    label4.Text = total.ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error loading customers: " + ex.Message);
+            }
         }
 
-        private void panel1_Paint(object sender, PaintEventArgs e)
+        private void LoadTotalParts()
         {
-
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+                    SqlCommand cmd = new SqlCommand("SELECT COUNT(*) FROM Spare_Parts", conn);
+                    int total = (int)cmd.ExecuteScalar();
+                    label6.Text = total.ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error loading spare parts: " + ex.Message);
+            }
         }
+
+        // أحداث إضافية إن كنت تنوي استخدامها لاحقًا
+        private void label10_Click(object sender, EventArgs e) { }
+        private void label4_Click(object sender, EventArgs e) { }
+        private void label3_Click(object sender, EventArgs e) { }
+        private void panel1_Paint(object sender, PaintEventArgs e) { }
     }
 }
