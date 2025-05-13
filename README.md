@@ -16,4 +16,13 @@ This is a desktop application built using C# WinForms to manage a Toyota car bus
 - SQL Server
 - Git & GitHub
 
+## Screenshots
 
+### Login Page
+![Login Page](images/Login.png)
+
+### Staff Login Page
+![Staff Login Page](images/Staff_Login.png)
+
+### Admin Login Page
+![Admin Login Page](images/Admin_Login.png)
